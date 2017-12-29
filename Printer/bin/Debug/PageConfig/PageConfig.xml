@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Pages>
+  <Page id="1" Caption="业务表">
+    <line s_x="1.4" s_y="4" e_x="19.5" e_y="4" />
+    <line s_x="1.4" s_y="4" e_x="1.4" e_y="27.8" />
+    <text Caption="标题" Font_Size="22" value="标题头" FontStyle="Bold" x="3.8" y="1.7" MaxLength="50"  />
+    <text Caption="条形码" Font_Size="28" DataFieldName="TXM" value="" Font_Name="C39HrP24DhTt" FontStyle="Bold" x="14.7" y="1.2" MaxLength="50"  />
+    <text Caption="房屋座落" Font_Size="11" DataFieldName="FWZL" value="" FontStyle="Bold" x="14.8" y="3.0" MaxLength="50"  />
+    <loop DataFieldName="Owners">
+      <text Caption="姓名" Font_Size="10" DataFieldName="OWNER" value="" x="1.5" y="5.9" MaxLength="50"  />
+      <text Caption="证件号码" Font_Size="10" DataFieldName="CNUM" value="" x="9.1" y="5.9" MaxLength="50"  />
+    </loop>
+    <text Caption="附记" Font_Size="11" DataFieldName="FJ" value="" x="3.3" y="13.9" MaxLength="4" />
+  </Page>
+</Pages>
+<!--
+Pages标签：
+Margin_Top：距离顶部间距 默认0
+Margin_Left：距离左部间距 默认0
+Landscape：横向或纵向 默认false 默认纵向打
+PageName：打印类型 默认为A4
+Width：宽度 默认为20.9CM
+Height：高度 默认为29.6CM
+
+line标签：
+width：线框宽度 默认为1
+
+text标签：
+Font_Name：字体 默认为Arial 当标记为C39HrP24DhTt时为条形码
+Line_Height：行高 loop时用，默认0.5
+FontStyle：字体 默认普通，可选择Bold|Underline
+DataFieldName：有此标签时为绑定的
+
+
+-->

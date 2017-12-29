@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Pages>
+  <Page id="1" EntityName="CqPrinter.Audi" pagename="测试类" width="29.1" height="27">
+    <text Caption="房屋座落" Font_Size="10" DataFieldName="FWZL"  IsBind="true" value="" Line_Height="0.5" Font_Name="Arial" IsBold="false" x="10" y="20" MaxLength="50"  />
+    <line Line_Color="Black" width="1" s_x="5" s_y="10" e_x="10" e_y="20"></line>
+  </Page>
+</Pages>
