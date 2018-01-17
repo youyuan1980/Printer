@@ -30,6 +30,4 @@ Font_Name：字体 默认为Arial 当标记为C39HrP24DhTt时为条形码
 Line_Height：行高 loop时用，默认0.5
 FontStyle：字体 默认普通，可选择Bold|Underline
 DataFieldName：有此标签时为绑定的
-
-
 -->

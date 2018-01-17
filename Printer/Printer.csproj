@@ -54,10 +54,14 @@
     <Compile Include="Cs\Dal\EntityConfigDAL.cs" />
     <Compile Include="Cs\EntityConfig\EntityConfigBase.cs" />
     <Compile Include="Cs\EntityConfig\Info.cs" />
+    <Compile Include="PageConfig\LineEntity.cs" />
+    <Compile Include="PageConfig\PageEntity.cs" />
+    <Compile Include="PageConfig\PageEntityManager.cs" />
     <Compile Include="Cs\PrinterGateway.cs" />
     <Compile Include="Cs\PrinterHelper.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PageConfig\TextEnitity.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,12 +92,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="PageEntityInfo\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\PageConfig\PageConfig.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="PageConfig\PageConfig.xml" />
+    <Content Include="PageConfig.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

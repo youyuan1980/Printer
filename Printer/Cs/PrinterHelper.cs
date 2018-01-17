@@ -8,6 +8,7 @@ using System.Drawing.Printing;
 using System.Drawing;
 using Printer.Cs.EntityConfig;
 using System.Reflection;
+using Printer.Cs.PageEntityInfo;
 
 namespace Printer.Cs
 {
@@ -15,32 +16,17 @@ namespace Printer.Cs
     {
         private XmlNode xmldata = null;
 
-        private const decimal Pages_Default_Margin_Top = 0;
-        private const decimal Pages_Default_Margin_Left = 0;
-        private const bool Pages_Default_Landscape =false;
-        private const string Pages_Default_PageName = "A4";
-        private const decimal Pages_Default_Width = 20.9M;
-        private const decimal Pages_Default_Height = 29.6M;
+        private PageEntity pageentity = null;
+
         private const string Page_Default_Font_Name = "Arial";
         private const decimal Page_Default_Line_Height = 0.5M;
 
 
-        private decimal Margin_Top = 0;
-        private decimal Margin_Left = 0;
-
         #region 打印事件
         protected override void OnPrintPage(System.Drawing.Printing.PrintPageEventArgs e)
         {
-            string PageName = xmldata.Attributes["pagename"] != null ? xmldata.Attributes["pagename"].Value : Pages_Default_PageName;
-            decimal.TryParse(xmldata.Attributes["Margin_Top"] != null ? xmldata.Attributes["Margin_Top"].Value : Pages_Default_Margin_Top.ToString(), out Margin_Top);
-            decimal.TryParse(xmldata.Attributes["Margin_Left"] != null ? xmldata.Attributes["Margin_Left"].Value : Pages_Default_Margin_Left.ToString(), out Margin_Left);
-
             for (int i = 0; i < xmldata.ChildNodes.Count; i++)
             {
-                decimal s_x = 0;
-                decimal s_y = 0;
-                decimal e_x = 0;
-                decimal e_y = 0;
                 XmlNode row = xmldata.ChildNodes[i];
                 string name = row.Name;
                 switch (name)
@@ -49,17 +35,12 @@ namespace Printer.Cs
                         textConfig(row, e);
                         break;
                     case "line":
-                        decimal.TryParse(row.Attributes["s_x"].Value, out s_x);
-                        decimal.TryParse(row.Attributes["s_y"].Value, out s_y);
-                        decimal.TryParse(row.Attributes["e_x"].Value, out e_x);
-                        decimal.TryParse(row.Attributes["e_y"].Value, out e_y);
-                        s_x += Margin_Left;
-                        s_y += Margin_Top;
-                        e_x += Margin_Left;
-                        e_y += Margin_Top;
-                        float width = 1;
-                        float.TryParse(row.Attributes["width"] != null ? row.Attributes["width"].Value : "1", out width);
-                        e.Graphics.DrawLine(new Pen(Brushes.Black, width), GetPoint(s_x, s_y), GetPoint(e_x, e_y));
+                        LineEntity lineentity = PageEntityManager<LineEntity>.Getentity(row);
+                        decimal s_x = lineentity.S_x + pageentity.Margin_Left;
+                        decimal s_y = lineentity.S_y + pageentity.Margin_Top;
+                        decimal e_x = lineentity.E_x + pageentity.Margin_Left;
+                        decimal e_y = lineentity.E_y + pageentity.Margin_Top;
+                        e.Graphics.DrawLine(new Pen(Brushes.Black, lineentity.Width), GetPoint(s_x, s_y), GetPoint(e_x, e_y));
                         break;
                     case "loop":
                         for (int j = 0; j < row.ChildNodes.Count; j++)
@@ -97,10 +78,10 @@ namespace Printer.Cs
             string fontStyle = Convert.ToString(row.Attributes["FontStyle"]!=null?row.Attributes["FontStyle"].Value:"");
             decimal x = 0;
             decimal.TryParse(row.Attributes["x"].Value, out x);
-            x += Margin_Left;
+            x += pageentity.Margin_Left;
             decimal y = 0;
             decimal.TryParse(row.Attributes["y"].Value, out y);
-            y += Margin_Top;
+            y += pageentity.Margin_Top;
             int MaxLength = 0;
             int.TryParse(row.Attributes["MaxLength"].Value, out MaxLength);
             string value = Convert.ToString(row.Attributes["value"].Value).Replace("\r\n\r\n", "\r\n");
@@ -151,16 +132,15 @@ namespace Printer.Cs
             XmlNode config = GetConfig(data.pageConfig);
             DataFillToXml(data, ref config);
             xmldata = config;
-            DefaultPageSettings.Landscape = xmldata.Attributes["Landscape"] != null?Convert.ToBoolean(xmldata.Attributes["Landscape"].Value):Pages_Default_Landscape;
-            string PageName = xmldata.Attributes["pagename"]!=null?xmldata.Attributes["pagename"].Value:Pages_Default_PageName;
-            decimal width = xmldata.Attributes["width"]!=null?Convert.ToDecimal(xmldata.Attributes["width"].Value):Pages_Default_Width;
-            decimal height = xmldata.Attributes["height"] != null ? Convert.ToDecimal(xmldata.Attributes["height"].Value):Pages_Default_Height;
-            int PageWidth = CmToPix(width);
-            int PageHeigth = CmToPix(height);
+            //初始化页面实体
+            pageentity = PageEntityManager<PageEntity>.Getentity(xmldata);
+            DefaultPageSettings.Landscape = pageentity.Landscape;
+            int PageWidth = CmToPix(pageentity.Width);
+            int PageHeigth = CmToPix(pageentity.Height);
             PaperSize p1 = null;
             for (int i = 0; i < PrinterSettings.PaperSizes.Count; i++)
             {
-                if (PrinterSettings.PaperSizes[i].PaperName == PageName)
+                if (PrinterSettings.PaperSizes[i].PaperName == pageentity.PageName)
                 {
                     p1 = PrinterSettings.PaperSizes[i];
                     break;
@@ -168,7 +148,7 @@ namespace Printer.Cs
             }
             if (p1 == null)
             {
-                p1 = new PaperSize(PageName, PageWidth, PageHeigth);
+                p1 = new PaperSize(pageentity.PageName, PageWidth, PageHeigth);
             }
             DefaultPageSettings.PaperSize = p1;
             PrintShowDialog(text, caption);

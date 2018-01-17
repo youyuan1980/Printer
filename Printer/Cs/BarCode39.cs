@@ -5,7 +5,6 @@ using System.Collections;
 using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Drawing;
 using System.Drawing.Text;
 namespace Printer.Cs
 {

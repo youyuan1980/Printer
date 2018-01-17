@@ -7,3 +7,12 @@ d:\my documents\visual studio 2010\Projects\Printer\Printer\bin\Debug\Printer.ex
 d:\my documents\visual studio 2010\Projects\Printer\Printer\bin\Debug\Printer.pdb
 d:\my documents\visual studio 2010\Projects\Printer\Printer\obj\x86\Debug\Printer.exe
 d:\my documents\visual studio 2010\Projects\Printer\Printer\obj\x86\Debug\Printer.pdb
+F:\src\printer\Printer\obj\x86\Debug\Printer.exe
+F:\src\printer\Printer\obj\x86\Debug\Printer.pdb
+F:\src\printer\Printer\bin\Debug\Printer.exe
+F:\src\printer\Printer\bin\Debug\Printer.pdb
+F:\src\printer\Printer\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\src\printer\Printer\obj\x86\Debug\Printer.Form1.resources
+F:\src\printer\Printer\obj\x86\Debug\Printer.Properties.Resources.resources
+F:\src\printer\Printer\obj\x86\Debug\GenerateResource.read.1.tlog
+F:\src\printer\Printer\obj\x86\Debug\GenerateResource.write.1.tlog
